@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Path("/restaurantes")
-@Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class RestauranteResource {
 
     @GET
@@ -44,10 +44,10 @@ public class RestauranteResource {
     @DELETE
     @Transactional
     @Path("{id}")
-    public void delete(@PathParam("id") Long id, Restaurante dto) {
+    public void delete(@PathParam("id") Long id) {
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(id);
 
-        restauranteOp.ifPresentOrElse(Restaurante::deleteById, () -> {
+        restauranteOp.ifPresentOrElse(Restaurante::delete, () -> {
             throw new NotFoundException();
         });
     }

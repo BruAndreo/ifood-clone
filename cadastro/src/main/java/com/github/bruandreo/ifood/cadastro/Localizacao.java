@@ -1,10 +1,12 @@
 package com.github.bruandreo.ifood.cadastro;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "localizacao")
-public class Localizacao {
+public class Localizacao extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
