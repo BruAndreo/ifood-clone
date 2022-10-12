@@ -2,11 +2,21 @@ quarkus:
   http:
     port: 3000
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    driver: org.postgresql.Driver
+    db-kind: postgresql
     username: cadastro
     password: cadastro
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/postgres
+      max-size: 16
   hibernate-orm:
     database:
       generation: drop-and-create
-    dialect: org.hibernate.dialect.PostgreSQLDialect
+  swagger-ui:
+    always-include: true
+    path: /swagger
+    theme: original
+  smallrye-openapi:
+    path: /openapi
+    info-title: Ifood Cadastro API Doc
+    info-version: 1.0.0
+    info-description: API de cadastro do Ifood clone
