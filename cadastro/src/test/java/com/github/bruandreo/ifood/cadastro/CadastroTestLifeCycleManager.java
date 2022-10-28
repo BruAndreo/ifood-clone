@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class CadastroTestLifeCycleManager implements QuarkusTestResourceLifecycleManager {
 
-    public static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:12.2");
+    public static final PostgreSQLContainer POSTGRES = new PostgreSQLContainer<>("postgres:12.2");
 
     @Override
     public Map<String, String> start() {
@@ -16,7 +16,7 @@ public class CadastroTestLifeCycleManager implements QuarkusTestResourceLifecycl
 
         Map<String, String> propriedades = new HashMap<String, String>();
 
-        propriedades.put("quarkus.datasource.url", POSTGRES.getJdbcUrl());
+        propriedades.put("quarkus.datasource.jdbc.url", POSTGRES.getJdbcUrl());
         propriedades.put("quarkus.datasource.username", POSTGRES.getUsername());
         propriedades.put("quarkus.datasource.password", POSTGRES.getPassword());
 
@@ -25,7 +25,7 @@ public class CadastroTestLifeCycleManager implements QuarkusTestResourceLifecycl
 
     @Override
     public void stop() {
-        if (POSTGRES != null && POSTGRES.isRunning()) {
+        if (POSTGRES.isRunning()) {
             POSTGRES.stop();
         }
     }

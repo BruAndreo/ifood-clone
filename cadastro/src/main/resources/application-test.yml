@@ -1,0 +1,11 @@
+"%test":
+  quarkus:
+    http:
+      port: 3001
+    datasource:
+      db-kind: postgresql
+    #      jdbc:
+    #        max-size: 16
+    hibernate-orm:
+      database:
+        generation: create
