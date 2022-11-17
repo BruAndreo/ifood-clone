@@ -4,17 +4,13 @@ import com.github.database.rider.cdi.api.DBRider;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
 import com.github.database.rider.core.api.dataset.DataSet;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
 import org.approvaltests.Approvals;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -40,7 +36,7 @@ public class RestauranteResourceTest {
     }
 
     @Test
-    @DataSet(value = "restaurantes-cenario-post.yml", cleanAfter = true)
+    @DataSet(cleanAfter = true)
     public void testCriarRestaurante() {
         String nome = "God of Comidinha";
         String proprietario = "Kratos";
