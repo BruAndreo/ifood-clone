@@ -11,7 +11,9 @@ import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
 
@@ -65,6 +67,31 @@ public class RestauranteResourceTest {
         assert restauranteCadastrado.nome.equals(nome);
         assert restauranteCadastrado.proprietario.equals(proprietario);
         assert restauranteCadastrado.cnpj.equals(cnpj);
+    }
+
+    @Test
+    @DataSet(value = "restaurantes-cenario-1.yml", cleanAfter = true)
+    public void testEditaRestaurante() {
+        Restaurante dto = new Restaurante();
+        dto.nome = "Comidinhas";
+
+        Long idRestaurante = 123L;
+
+        given()
+            .with()
+                .pathParam("id", idRestaurante)
+                .contentType(ContentType.JSON)
+                .body(dto)
+            .when()
+                .put("/restaurantes/{id}")
+            .then()
+                .statusCode(Response.Status.NO_CONTENT.getStatusCode())
+                .extract().asString();
+
+        Restaurante result = Restaurante.findById(idRestaurante);
+
+        assert result.nome.equals(dto.nome);
+        assert !Objects.equals(result.proprietario, dto.proprietario);
     }
 
 }
