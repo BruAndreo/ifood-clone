@@ -11,6 +11,7 @@ import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import javax.net.ssl.SSLEngineResult;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +31,7 @@ public class RestauranteResourceTest {
             .when()
                 .get("/restaurantes")
             .then()
-                .statusCode(200)
+                .statusCode(Response.Status.OK.getStatusCode())
                 .extract()
                 .asString();
 
@@ -56,7 +57,7 @@ public class RestauranteResourceTest {
             .when()
                 .post("/restaurantes")
             .then()
-                .statusCode(201);
+                .statusCode(Response.Status.CREATED.getStatusCode());
 
         List<Restaurante> result = Restaurante.listAll();
 
