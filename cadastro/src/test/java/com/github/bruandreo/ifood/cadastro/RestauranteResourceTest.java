@@ -5,15 +5,16 @@ import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
 import com.github.database.rider.core.api.dataset.DataSet;
 import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.approvaltests.Approvals;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.net.ssl.SSLEngineResult;
 import javax.ws.rs.core.Response;
+import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,12 +26,16 @@ import static io.restassured.RestAssured.given;
 @QuarkusTestResource(CadastroTestLifeCycleManager.class)
 public class RestauranteResourceTest {
 
+    @TestHTTPResource("/restaurantes")
+    URL apiUrl;
+
     @Test
+    @DisplayName("Should return all restaurants")
     @DataSet(value = "restaurantes-cenario-1.yml", cleanAfter = true)
     public void testBuscarRestaurantes() {
         String resultado = given()
             .when()
-                .get("/restaurantes")
+                .get(apiUrl)
             .then()
                 .statusCode(Response.Status.OK.getStatusCode())
                 .extract()
@@ -40,6 +45,7 @@ public class RestauranteResourceTest {
     }
 
     @Test
+    @DisplayName("Should create a restaurant")
     @DataSet(cleanAfter = true)
     public void testCriarRestaurante() {
         String nome = "God of Comidinha";
@@ -56,7 +62,7 @@ public class RestauranteResourceTest {
                 .contentType(ContentType.JSON)
                 .body(dto)
             .when()
-                .post("/restaurantes")
+                .post(apiUrl)
             .then()
                 .statusCode(Response.Status.CREATED.getStatusCode());
 
@@ -72,6 +78,7 @@ public class RestauranteResourceTest {
     }
 
     @Test
+    @DisplayName("Should edit a restaurant name")
     @DataSet(value = "restaurantes-cenario-1.yml", cleanAfter = true)
     public void testEditaRestaurante() {
         Restaurante dto = new Restaurante();
@@ -80,12 +87,12 @@ public class RestauranteResourceTest {
         Long idRestaurante = 123L;
 
         given()
+            .pathParam("id", idRestaurante)
             .with()
-                .pathParam("id", idRestaurante)
                 .contentType(ContentType.JSON)
                 .body(dto)
             .when()
-                .put("/restaurantes/{id}")
+                .put(apiUrl + "/{id}")
             .then()
                 .statusCode(Response.Status.NO_CONTENT.getStatusCode())
                 .extract().asString();
@@ -97,6 +104,7 @@ public class RestauranteResourceTest {
     }
 
     @Test
+    @DisplayName("Should delete a restaurant")
     @DataSet(value = "restaurantes-cenario-1.yml", cleanAfter = true)
     public void testDeletarRestaurante() {
         Long idRestaurante = 123L;
@@ -106,7 +114,7 @@ public class RestauranteResourceTest {
                 .contentType(ContentType.JSON)
                 .pathParam("id", idRestaurante)
             .when()
-                .delete("/restaurantes/{id}")
+                .delete(apiUrl + "/{id}")
             .then()
                 .statusCode(Response.Status.NO_CONTENT.getStatusCode());
 
