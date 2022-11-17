@@ -8,6 +8,7 @@ import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.approvaltests.Approvals;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -93,6 +94,27 @@ public class RestauranteResourceTest {
 
         assert result.nome.equals(dto.nome);
         assert !Objects.equals(result.proprietario, dto.proprietario);
+    }
+
+    @Test
+    @DataSet(value = "restaurantes-cenario-1.yml", cleanAfter = true)
+    public void testDeletarRestaurante() {
+        Long idRestaurante = 123L;
+
+        given()
+            .with()
+                .contentType(ContentType.JSON)
+                .pathParam("id", idRestaurante)
+            .when()
+                .delete("/restaurantes/{id}")
+            .then()
+                .statusCode(Response.Status.NO_CONTENT.getStatusCode());
+
+        List<Restaurante> result = Restaurante.listAll();
+
+        List<Long> ids = result.stream().map(restaurante -> restaurante.id).toList();
+
+        Assertions.assertFalse(ids.contains(idRestaurante));
     }
 
 }
