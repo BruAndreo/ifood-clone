@@ -1,5 +1,9 @@
 package com.github.bruandreo.ifood.cadastro;
 
+import com.github.bruandreo.ifood.cadastro.dto.AdicionarRestauranteDTO;
+import com.github.bruandreo.ifood.cadastro.dto.RestauranteMapper;
+
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,6 +16,9 @@ import java.util.Optional;
 @Produces(MediaType.APPLICATION_JSON)
 public class RestauranteResource {
 
+    @Inject
+    RestauranteMapper restauranteMapper;
+
     @GET
     public List<Restaurante> listAll() {
         return Restaurante.listAll();
@@ -19,8 +26,9 @@ public class RestauranteResource {
 
     @POST
     @Transactional
-    public Response add(Restaurante dto) {
-        dto.persist();
+    public Response add(AdicionarRestauranteDTO dto) {
+        Restaurante restaurante = restauranteMapper.toRestaurante(dto);
+        restaurante.persist();
         return Response.status(Response.Status.CREATED).build();
     }
 
