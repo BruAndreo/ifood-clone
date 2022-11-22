@@ -6,6 +6,7 @@ import com.github.bruandreo.ifood.cadastro.dto.RestauranteMapper;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,7 +28,7 @@ public class RestauranteResource {
 
     @POST
     @Transactional
-    public Response add(AdicionarRestauranteDTO dto) {
+    public Response add(@Valid AdicionarRestauranteDTO dto) {
         Restaurante restaurante = restauranteMapper.toRestaurante(dto);
         restaurante.persist();
         return Response.status(Response.Status.CREATED).build();
@@ -45,7 +46,7 @@ public class RestauranteResource {
 
         var restaurante = restauranteOp.get();
 
-        restaurante.nome = dto.nomeFantasia;
+        restauranteMapper.toRestaurante(dto, restaurante);
         restaurante.persist();
     }
 
