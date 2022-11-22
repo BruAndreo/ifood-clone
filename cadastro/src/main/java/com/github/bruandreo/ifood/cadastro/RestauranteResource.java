@@ -34,7 +34,7 @@ public class RestauranteResource {
         return Response.status(Response.Status.CREATED).build();
     }
 
-    @PUT
+    @PATCH
     @Transactional
     @Path("{id}")
     public void update(@PathParam("id") Long id, @Valid AlterarRestauranteDTO dto) {
