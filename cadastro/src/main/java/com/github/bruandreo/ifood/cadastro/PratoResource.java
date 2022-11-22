@@ -1,28 +1,37 @@
 package com.github.bruandreo.ifood.cadastro;
 
+import com.github.bruandreo.ifood.cadastro.dto.PratoDTO;
+import com.github.bruandreo.ifood.cadastro.dto.PratoMapper;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Path("restaurantes/{idRestaurante}/pratos")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class PratoResource {
 
+    @Inject
+    PratoMapper pratoMapper;
+
     @GET
-    public List<Prato> listAllPratos(@PathParam("idRestaurante") Long idRestaurante) {
+    public List<PratoDTO> listAllPratos(@PathParam("idRestaurante") Long idRestaurante) {
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
 
         if (restauranteOp.isEmpty()) {
             throw new NotFoundException();
         }
 
-        return Prato.list("restaurante", restauranteOp.get());
+        Stream<Prato> pratos = Prato.streamAll();
+        return pratos.map(p -> pratoMapper.toPratoDTO(p)).collect(Collectors.toList());
     }
 
     @POST
