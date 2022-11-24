@@ -31,7 +31,7 @@ public class PratoResource {
             throw new NotFoundException();
         }
 
-        Stream<Prato> pratos = Prato.streamAll();
+        Stream<Prato> pratos = Prato.stream("restaurante.id", restauranteOp.get().id);
         return pratos.map(p -> pratoMapper.toPratoDTO(p)).collect(Collectors.toList());
     }
 
