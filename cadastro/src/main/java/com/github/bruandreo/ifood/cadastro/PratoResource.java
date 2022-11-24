@@ -55,7 +55,7 @@ public class PratoResource {
 
     @GET()
     @Path("{idPrato}")
-    public Prato getPratoById(
+    public PratoDTO getPratoById(
             @PathParam("idRestaurante") Long idRestaurante,
             @PathParam("idPrato") Long idPrato
     ) {
@@ -71,7 +71,7 @@ public class PratoResource {
             throw new NotFoundException("Prato not found");
         }
 
-        return prato.get();
+        return pratoMapper.toPratoDTO(prato.get());
     }
 
     @PUT
