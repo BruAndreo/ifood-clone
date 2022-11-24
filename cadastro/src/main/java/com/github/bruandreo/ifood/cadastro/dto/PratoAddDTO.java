@@ -1,9 +1,6 @@
 package com.github.bruandreo.ifood.cadastro.dto;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class PratoAddDTO {
@@ -18,7 +15,8 @@ public class PratoAddDTO {
     @NotEmpty
     public String descricao;
 
-    @Min(value = 1)
+    @DecimalMin(value = "0.01")
+    @Digits(integer = 5, fraction = 2)
     public BigDecimal preco;
 
 }
