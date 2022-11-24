@@ -1,7 +1,7 @@
 package com.github.bruandreo.ifood.cadastro;
 
-import com.github.bruandreo.ifood.cadastro.dto.AdicionarRestauranteDTO;
-import com.github.bruandreo.ifood.cadastro.dto.AlterarRestauranteDTO;
+import com.github.bruandreo.ifood.cadastro.dto.RestauranteAddDTO;
+import com.github.bruandreo.ifood.cadastro.dto.RestauranteEditDTO;
 import com.github.bruandreo.ifood.cadastro.dto.RestauranteMapper;
 
 import javax.inject.Inject;
@@ -28,7 +28,7 @@ public class RestauranteResource {
 
     @POST
     @Transactional
-    public Response add(@Valid AdicionarRestauranteDTO dto) {
+    public Response add(@Valid RestauranteAddDTO dto) {
         Restaurante restaurante = restauranteMapper.toRestaurante(dto);
         restaurante.persist();
         return Response.status(Response.Status.CREATED).build();
@@ -37,7 +37,7 @@ public class RestauranteResource {
     @PATCH
     @Transactional
     @Path("{id}")
-    public void update(@PathParam("id") Long id, @Valid AlterarRestauranteDTO dto) {
+    public void update(@PathParam("id") Long id, @Valid RestauranteEditDTO dto) {
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(id);
 
         if (restauranteOp.isEmpty()) {
