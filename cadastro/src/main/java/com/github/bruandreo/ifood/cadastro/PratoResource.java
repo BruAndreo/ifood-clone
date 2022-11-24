@@ -2,6 +2,7 @@ package com.github.bruandreo.ifood.cadastro;
 
 import com.github.bruandreo.ifood.cadastro.dto.PratoAddDTO;
 import com.github.bruandreo.ifood.cadastro.dto.PratoDTO;
+import com.github.bruandreo.ifood.cadastro.dto.PratoEditDTO;
 import com.github.bruandreo.ifood.cadastro.dto.PratoMapper;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
@@ -78,7 +79,7 @@ public class PratoResource {
     public Response updatePrato(
             @PathParam("idRestaurante") Long idRestaurante,
             @PathParam("idPrato") Long idPrato,
-            Prato dto
+            PratoEditDTO dto
     ) {
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
 
@@ -94,9 +95,8 @@ public class PratoResource {
 
         var prato = pratoOp.get();
 
-        prato.nome = dto.nome;
-        prato.descricao = dto.descricao;
-        prato.preco = dto.preco;
+        pratoMapper.toPrato(dto, prato);
+        prato.persist();
 
         return Response.ok().build();
     }
