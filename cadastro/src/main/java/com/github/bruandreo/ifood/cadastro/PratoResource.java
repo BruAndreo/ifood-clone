@@ -1,5 +1,6 @@
 package com.github.bruandreo.ifood.cadastro;
 
+import com.github.bruandreo.ifood.cadastro.dto.PratoAddDTO;
 import com.github.bruandreo.ifood.cadastro.dto.PratoDTO;
 import com.github.bruandreo.ifood.cadastro.dto.PratoMapper;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
@@ -36,17 +37,14 @@ public class PratoResource {
 
     @POST
     @Transactional
-    public Response createNewPrato(@PathParam("idRestaurante") Long idRestaurante, Prato dto) {
+    public Response createNewPrato(@PathParam("idRestaurante") Long idRestaurante, PratoAddDTO dto) {
         Optional<Restaurante> restauranteOp = Restaurante.findByIdOptional(idRestaurante);
 
         if (restauranteOp.isEmpty()) {
             throw new NotFoundException();
         }
 
-        Prato prato = new Prato();
-        prato.nome = dto.nome;
-        prato.descricao = dto.descricao;
-        prato.preco = dto.preco;
+        Prato prato = pratoMapper.toPrato(dto);
         prato.restaurante = restauranteOp.get();
         prato.persist();
 

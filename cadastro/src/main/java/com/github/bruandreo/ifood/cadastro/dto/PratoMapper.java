@@ -8,4 +8,6 @@ public interface PratoMapper {
 
     public PratoDTO toPratoDTO(Prato prato);
 
+    public Prato toPrato(PratoAddDTO dto);
+
 }
