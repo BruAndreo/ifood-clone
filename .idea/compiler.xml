@@ -28,6 +28,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/springframework/spring-context/4.0.3.RELEASE/spring-context-4.0.3.RELEASE.jar" />
           <entry name="$MAVEN_REPOSITORY$/joda-time/joda-time/2.9/joda-time-2.9.jar" />
         </processorPath>
+        <module name="ifood-cadastro" />
         <module name="cadastro" />
       </profile>
     </annotationProcessing>
@@ -35,8 +36,9 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cadastro" options="-parameters" />
-      <module name="marketplace" options="-parameters" />
-      <module name="pedido" options="-parameters" />
+      <module name="ifood-cadastro" options="-parameters" />
+      <module name="marketplace" options="" />
+      <module name="pedido" options="" />
     </option>
   </component>
 </project>

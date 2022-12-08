@@ -15,6 +15,8 @@ quarkus:
     verify:
       issuer: http://localhost:8180/auth/realms/ifood
       publickey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApQ1gdk736HfBD/WNJeeM/0mbKPw8sD3kz/jedVesrKCe5xHC+ryjLwW0/RseT86SSuL/6Ump66JzZ1QDc3YlU04iHIQZlJ/jrS4tdLoTTRcNyzYvq6mbBi3vl8EMQFKKU25cYAUO6MjLRBFYn9nWij9Vx+0YbGkT+O6X4kPJJU3vWqKA/sF9cXKtxkfU8WZhNZFGhpwq/MGO9SeplC7QOfWTEfr2GA1XrxXTwqQBwgzqUplEecVYFGQ+/D3JSNyzIQamXHrNr6gcs506KqSVt1tsy+ssOovUe5IewEmvrVJ6jvSVgF+Y9krlK2JxmaQLXpCz84ohbdCDkBeSvmSj0QIDAQAB
+  smallrye-jwt:
+    enabled: true
   swagger-ui:
     always-include: true
     path: /swagger
